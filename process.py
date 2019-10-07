@@ -1,5 +1,9 @@
 import requests
 import lxml.etree as ET
+from gtts import gTTS 
+import pyttsx3
+
+USE_PYTTS = False
 
 source_url = 'https://www.metoffice.gov.uk/public/data/CoreProductCache/ShippingForecast/Latest'
 xml_filename = 'source.xml'
@@ -13,8 +17,6 @@ file = open(xml_filename,'w')
 file.write(source_text)
 file.close()
 
-#print(source_text)
-
 dom = ET.parse(xml_filename)
 xslt = ET.parse(xsl_filename)
 transform = ET.XSLT(xslt)
@@ -25,3 +27,10 @@ file = open(script_filename,'w')
 file.write(output)
 file.close()
 
+if USE_PYTTS == True:
+    engine = pyttsx3.init()
+    engine.say(output)
+    engine.runAndWait()
+else:
+    engine = gTTS(text=output, lang='en', slow=False) 
+    engine.save("output.mp3") 

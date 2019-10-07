@@ -33,7 +33,7 @@
 			<xsl:value-of select="all"></xsl:value-of>: 
 			<xsl:value-of select="wind"></xsl:value-of>.
 			<xsl:value-of select="weather"></xsl:value-of>.
-			<xsl:value-of select="visibility"></xsl:value-of>.
+			<xsl:value-of select="visibility"></xsl:value-of>....... 
 		</xsl:for-each>
 		
 		And that's the Shipping Forecast.
