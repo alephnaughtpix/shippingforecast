@@ -32,5 +32,5 @@ if USE_PYTTS == True:
     engine.say(output)
     engine.runAndWait()
 else:
-    engine = gTTS(text=output, lang='en', slow=False) 
+    engine = gTTS(text=output, lang='en-UK', slow=False) 
     engine.save("output.mp3") 
