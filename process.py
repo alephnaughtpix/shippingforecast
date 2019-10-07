@@ -3,7 +3,9 @@ import lxml.etree as ET
 from gtts import gTTS 
 import pyttsx3
 
+# Trying with examples from https://pythonprogramminglanguage.com/text-to-speech/
 USE_PYTTS = False
+USE_WATSON = False
 
 source_url = 'https://www.metoffice.gov.uk/public/data/CoreProductCache/ShippingForecast/Latest'
 xml_filename = 'source.xml'
@@ -32,5 +34,10 @@ if USE_PYTTS == True:
     engine.say(output)
     engine.runAndWait()
 else:
-    engine = gTTS(text=output, lang='en-UK', slow=False) 
-    engine.save("output.mp3") 
+    if USE_WATSON == True:
+        engine = pyttsx3.init()
+        engine.say(output)
+        engine.runAndWait()
+    else:
+        engine = gTTS(text=output, lang='en-UK', slow=False) 
+        engine.save("output.mp3") 
