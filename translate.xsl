@@ -20,7 +20,7 @@
   	</xsl:function>
   	
 	<xsl:template match="/report">
-		And now the Shipping Forecast, issued by the Met Office on behalf of the Maritime and Coastguard Agency at <xsl:value-of select="issue/@time"></xsl:value-of> on <xsl:value-of select="issue/@date"></xsl:value-of>.
+		And now the Shipping Forecast, issued by the Met Office on behalf of the Maritime and Coastguard Agency at <xsl:value-of select="issue/@time"></xsl:value-of> today.
 		
 		<xsl:if test="count(gales/shipping-area) &gt; 0"><xsl:if test="count(gales/shipping-area) = 1"> There is a gale warning for <xsl:value-of select="gales/shipping-area[1]"></xsl:value-of>.</xsl:if><xsl:if test="count(gales/shipping-area) &gt; 1">There are gale warnings for <xsl:for-each select="gales/shipping-area[position() &lt; last() - 1]"><xsl:value-of select="."></xsl:value-of>, </xsl:for-each><xsl:value-of select="gales/shipping-area[last() - 1 ]"></xsl:value-of> and <xsl:value-of select="gales/shipping-area[last()]"></xsl:value-of>.</xsl:if></xsl:if>
 		
@@ -35,5 +35,7 @@
 			<xsl:value-of select="weather"></xsl:value-of>.
 			<xsl:value-of select="visibility"></xsl:value-of>.
 		</xsl:for-each>
+		
+		And that's the Shipping Forecast.
 	</xsl:template>
 </xsl:stylesheet>
