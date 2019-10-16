@@ -1,7 +1,10 @@
 import requests
 import lxml.etree as ET
 from gtts import gTTS 
+from pydub import AudioSegment
 import pyttsx3
+
+THEME_TUNE = True
 
 # Trying with examples from https://pythonprogramminglanguage.com/text-to-speech/
 USE_PYTTS = False
@@ -11,6 +14,8 @@ source_url = 'https://www.metoffice.gov.uk/public/data/CoreProductCache/Shipping
 xml_filename = 'source.xml'
 xsl_filename = 'translate.xsl'
 script_filename = 'script.txt'
+source_mp3 = "output.mp3"
+theme_mp3 = "sailingby.mp3"
 
 response = requests.get(source_url)
 source_text = response.text
@@ -40,4 +45,13 @@ else:
         engine.runAndWait()
     else:
         engine = gTTS(text=output, lang='en-UK', slow=False) 
-        engine.save("output.mp3") 
+        engine.save(source_mp3)
+        if THEME_TUNE:
+            theme_src = AudioSegment.from_mp3(theme_mp3)
+            feature_src = AudioSegment.from_mp3(source_mp3)
+            programme_start = len(theme_src) - (6 * 1000)
+            programme_length = programme_start + len(feature_src)
+            playlist = AudioSegment.silent( duration=programme_length )
+            programme = playlist.overlay(theme_src).overlay(feature_src, position=programme_start)
+            programme.export("output_with_theme.mp3", format="mp3")
+
