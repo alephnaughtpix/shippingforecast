@@ -10,3 +10,9 @@ speak. Optionally, you can preface the forecast with a _[NOT INCLUDED]_ MP3 file
 
 You can configure the content of the output by editing the file `translate.xs`. Theoretically, this could be the basis 
 of a generic speech to text internet reader.
+
+###Technologies used:
+* Google Text to Speech
+* PyRubberband: https://pyrubberband.readthedocs.io/
+* PyDub: https://github.com/jiaaro/pydub/
+* PySoundfile: https://pysoundfile.readthedocs.io/

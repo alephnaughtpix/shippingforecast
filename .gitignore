@@ -1,4 +1,5 @@
 venv/
 script.txt
 *.mp3
+*.flac
 source.xml
