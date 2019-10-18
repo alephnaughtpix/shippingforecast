@@ -1,4 +1,7 @@
 <?xml version="1.0" ?>
+<!-- 
+Sample Shipping Forecast feed for testing purposes
+-->
 <?xml-stylesheet type="text/xsl" href="convert.xsl"?>
 <report xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" creation-time="2019-10-04T05:04:00">
   <title>Shipping forecast</title>
