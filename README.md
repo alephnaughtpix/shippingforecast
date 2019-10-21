@@ -11,6 +11,11 @@ speak. Optionally, you can preface the forecast with a _[NOT INCLUDED]_ MP3 file
 You can configure the content of the output by editing the file `translate.xsl`. Theoretically, this could be the basis 
 of a generic speech to text internet reader.
 
+### Usage
+```
+python3 .\process.py
+```
+
 ### Technologies used:
 * Google Text to Speech
 * PyRubberband: https://pyrubberband.readthedocs.io/
