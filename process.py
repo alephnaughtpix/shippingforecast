@@ -90,10 +90,10 @@ else:
         engine.save(source_mp3)
         if PITCH_SHIFT:
             word_src = AudioSegment.from_mp3(source_mp3)
-            sr = word_src.frame_rate
-            y = np.array(word_src.get_array_of_samples())
-            pitched_down = pyrb.pitch_shift(y, sr, n_steps=-4)
-            sf.write(pitch_file, pitched_down, sr)
+            sample_rate = word_src.frame_rate
+            samples = np.array(word_src.get_array_of_samples())
+            pitched_down = pyrb.pitch_shift(samples, sample_rate, n_steps=-4)
+            sf.write(pitch_file, pitched_down, sample_rate)
             if REMOVE_TEMP_FILES:
                 os.remove(source_mp3)
                 
@@ -101,12 +101,12 @@ if os.path.exists(output_file):
     os.remove(output_file)
         
 if THEME_TUNE:
-    theme_src = AudioSegment.from_mp3(theme_mp3)
-    feature_src = AudioSegment.from_file(speech_file).normalize()
-    programme_start = len(theme_src) - (6 * 1000)
-    programme_length = programme_start + len(feature_src)
-    playlist = AudioSegment.silent( duration=programme_length )
-    programme = playlist.overlay(theme_src).overlay(feature_src, position=programme_start)
+    theme_src = AudioSegment.from_mp3(theme_mp3).normalize()        # Get theme tune
+    feature_src = AudioSegment.from_file(speech_file).normalize()   # Get spoken word
+    programme_start = len(theme_src) - (6 * 1000)                   # Speech starts 6 seconds before the theme is complete
+    programme_length = programme_start + len(feature_src)           # Combined programme is the combined length of the two files minus 6 seconds
+    playlist = AudioSegment.silent( duration=programme_length )     # Make new blank segment with the combine programme length
+    programme = playlist.overlay(theme_src).overlay(feature_src, position=programme_start)  # Overlay theme and speech onto blank segment
     if COMPRESS_DYNAMICS:
         programme = programme.compress_dynamic_range()
     programme.export(combined_file, format="mp3")

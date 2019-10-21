@@ -8,7 +8,7 @@ Output the latest Shipping Forecast as a spoken word MP3 file.
 This script uses the Met Office RSS feed for the forecast, XSLT to transform to readable text, and Google Text to Speech to
 speak. Optionally, you can preface the forecast with a _[NOT INCLUDED]_ MP3 file containing the tune "Sailing By" (or indeed any theme).
 
-You can configure the content of the output by editing the file `translate.xs`. Theoretically, this could be the basis 
+You can configure the content of the output by editing the file `translate.xsl`. Theoretically, this could be the basis 
 of a generic speech to text internet reader.
 
 ### Technologies used:
@@ -16,3 +16,8 @@ of a generic speech to text internet reader.
 * PyRubberband: https://pyrubberband.readthedocs.io/
 * PyDub: https://github.com/jiaaro/pydub/
 * PySoundfile: https://pysoundfile.readthedocs.io/
+
+The simplest way to install the requirements is to go to the root of this project in the command line and type:
+```
+pip install -r requirements.txt
+```
