@@ -18,7 +18,6 @@ Technologies used:
 * PyDub: https://github.com/jiaaro/pydub/
 * PySoundfile: https://pysoundfile.readthedocs.io/
 '''
-
 import requests
 import lxml.etree as ET
 from gtts import gTTS 
@@ -30,9 +29,10 @@ import pyttsx3
 import os
 import os.path
 
-THEME_TUNE = True       # OPTIONAL: Include the unofficial theme tune "Sailing By" before the forecast. (If you have an MP3 of it.)
-REMOVE_TEMP_FILES = True
-PITCH_SHIFT = False
+THEME_TUNE = True           # OPTIONAL: Include the unofficial theme tune "Sailing By" before the forecast. (If you have an MP3 of it.)
+REMOVE_TEMP_FILES = True    # Remove temp files after processsing
+PITCH_SHIFT = True          # Pitch shift voice down
+COMPRESS_DYNAMICS = True    # Compress overall result
 
 # Trying with examples from https://pythonprogramminglanguage.com/text-to-speech/
 USE_PYTTS = False
@@ -107,6 +107,8 @@ if THEME_TUNE:
     programme_length = programme_start + len(feature_src)
     playlist = AudioSegment.silent( duration=programme_length )
     programme = playlist.overlay(theme_src).overlay(feature_src, position=programme_start)
+    if COMPRESS_DYNAMICS:
+        programme = programme.compress_dynamic_range()
     programme.export(combined_file, format="mp3")
     if REMOVE_TEMP_FILES:
         os.rename(combined_file, output_file)
