@@ -32,7 +32,7 @@ import os.path
 THEME_TUNE = True           # OPTIONAL: Include the unofficial theme tune "Sailing By" before the forecast. (If you have an MP3 of it.)
 REMOVE_TEMP_FILES = True    # Remove temp files after processsing
 PITCH_SHIFT = True          # Pitch shift voice down
-COMPRESS_DYNAMICS = True    # Compress overall result
+COMPRESS_DYNAMICS = False    # Compress overall result (Takes much longer)
 
 # Trying with examples from https://pythonprogramminglanguage.com/text-to-speech/
 USE_PYTTS = False
