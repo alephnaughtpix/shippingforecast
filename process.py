@@ -2,7 +2,7 @@
 THE SHIPPING FORECAST READER
 https://github.com/alephnaughtpix/shippingforecast
 
-v0.1 Michael James 2019-10-18
+v0.2 Michael James 2019-10-24
 
 Output the latest Shipping Forecast as a spoken word MP3 file. 
 
@@ -18,16 +18,27 @@ Technologies used:
 * PyDub: https://github.com/jiaaro/pydub/
 * PySoundfile: https://pysoundfile.readthedocs.io/
 '''
-import requests
-import lxml.etree as ET
+from datetime import datetime
 from gtts import gTTS 
-from pydub import AudioSegment
+import lxml.etree as ET
 import numpy as np
-import pyrubberband as pyrb
-import soundfile as sf
-import pyttsx3
 import os
 import os.path
+from pydub import AudioSegment
+import pyrubberband as pyrb
+import pyttsx3
+import soundfile as sf
+import requests
+import time
+
+start = time.time()
+print('''
+THE SHIPPING FORECAST READER
+https://github.com/alephnaughtpix/shippingforecast
+v0.2 Michael James 2019-10-24
+''')
+print("Creating shipping forecast at:", datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+print()
 
 THEME_TUNE = True           # OPTIONAL: Include the unofficial theme tune "Sailing By" before the forecast. (If you have an MP3 of it.)
 REMOVE_TEMP_FILES = True    # Remove temp files after processsing
@@ -54,6 +65,7 @@ else:
     speech_file = source_mp3
 
 # Get Shipping Forecast RSS
+print('Calling Met Office for latest Shipping Forecast.')
 response = requests.get(source_url)
 source_text = response.text
 
@@ -72,6 +84,7 @@ output = output.replace('<?xml version="1.0"?>', '')    # Remove XML header.
 file = open(script_filename,'w')
 file.write(output)
 file.close()
+print('Downloaded shipping forecast data, converting to speech')
 
 # PyTTS - In case we don't have internet access. Sounds a bit robotic and US-ian
 if USE_PYTTS == True:
@@ -88,7 +101,9 @@ else:
         # Google Text to speech
         engine = gTTS(text=output, lang='en-UK', slow=False) 
         engine.save(source_mp3)
+        print('Converted to speech.')
         if PITCH_SHIFT:
+            print('Changing pitch')
             word_src = AudioSegment.from_mp3(source_mp3)
             sample_rate = word_src.frame_rate
             samples = np.array(word_src.get_array_of_samples())
@@ -96,11 +111,13 @@ else:
             sf.write(pitch_file, pitched_down, sample_rate)
             if REMOVE_TEMP_FILES:
                 os.remove(source_mp3)
+            print('Changed pitch')
                 
 if os.path.exists(output_file):
     os.remove(output_file)
         
 if THEME_TUNE:
+    print('Adding theme tune')
     theme_src = AudioSegment.from_mp3(theme_mp3).normalize()        # Get theme tune
     feature_src = AudioSegment.from_file(speech_file).normalize()   # Get spoken word
     programme_start = len(theme_src) - (6 * 1000)                   # Speech starts 6 seconds before the theme is complete
@@ -108,10 +125,12 @@ if THEME_TUNE:
     playlist = AudioSegment.silent( duration=programme_length )     # Make new blank segment with the combine programme length
     programme = playlist.overlay(theme_src).overlay(feature_src, position=programme_start)  # Overlay theme and speech onto blank segment
     if COMPRESS_DYNAMICS:
+        print('Compressing result')
         programme = programme.compress_dynamic_range()
     programme.export(combined_file, format="mp3")
     if REMOVE_TEMP_FILES:
         os.rename(combined_file, output_file)
+    print('Added theme tune')
 else:
     if REMOVE_TEMP_FILES:
         os.rename(speech_file, output_file)
@@ -120,3 +139,7 @@ if REMOVE_TEMP_FILES:
     os.remove(speech_file)
     os.remove(script_filename)
     os.remove(xml_filename)
+
+duration = round(time.time() - start)
+print('Shipping Forecast created in', duration, 'seconds.')
+

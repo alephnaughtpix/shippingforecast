@@ -1,7 +1,7 @@
 # The Shipping Forecast reader
 https://github.com/alephnaughtpix/shippingforecast
 
-v0.1 Michael James 2019-10-18
+v0.2 Michael James 2019-10-24
 
 Output the latest Shipping Forecast as a spoken word MP3 file. 
 
