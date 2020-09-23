@@ -142,4 +142,3 @@ if REMOVE_TEMP_FILES:
 
 duration = round(time.time() - start)
 print('Shipping Forecast created in', duration, 'seconds.')
-
