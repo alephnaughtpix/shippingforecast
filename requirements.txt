@@ -7,7 +7,7 @@ gTTS==2.2.4
 gTTS-token==1.1.4
 idna==3.3
 importlib-metadata==4.11.4
-lxml==4.4.1
+lxml==4.6.5
 numpy==1.21.6
 pkg-resources==0.0.0
 pycparser==2.21
