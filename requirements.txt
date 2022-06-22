@@ -8,7 +8,7 @@ gTTS-token==1.1.4
 idna==3.3
 importlib-metadata==4.11.4
 lxml==4.4.1
-numpy==1.21.6
+numpy==1.22.0
 pkg-resources==0.0.0
 pycparser==2.21
 pydub==0.23.1
